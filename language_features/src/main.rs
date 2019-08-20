@@ -1,7 +1,7 @@
+use rand::prelude::*;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
-use rand::prelude::*;
 
 #[derive(Debug)]
 struct Info {
@@ -11,7 +11,7 @@ struct Info {
 }
 
 fn main() {
-    let my_info = Info {
+    let mut my_info = Info {
         name: String::from("Rust"),
         age: 9,
         rating: None,
@@ -44,10 +44,24 @@ fn main() {
     // working with libs
     let mut rng = thread_rng();
     let arrows_iter = "➡⬈⬆⬉⬅⬋⬇⬊".chars();
-    println!("Lets go in this direction: {}", arrows_iter.choose(&mut rng).unwrap());
+    println!(
+        "Lets go in this direction: {}",
+        arrows_iter.choose(&mut rng).unwrap()
+    );
 
-    // compile error & static analysis example
-    //println!("{}", double(my_info.age));
+    // some on the fly testing
+    println!("{}", double(my_info.age));
+    do_nothing_with_struct(&mut my_info);
+    println!("{:?}", my_info);
+}
+
+fn do_nothing(s: String) -> String {
+    s
+}
+
+fn do_nothing_with_struct(s: &mut Info) -> () {
+    println!("{:?}", s);
+    s.age = 12
 }
 
 fn write_info(info: &Info) -> io::Result<(File)> {
@@ -59,6 +73,6 @@ fn write_info(info: &Info) -> io::Result<(File)> {
 }
 
 // a function that expects a reference as an argument
-// fn double(num: &i32) -> i32 {
-//     num * 2
-// }
+fn double(num: i32) -> i32 {
+    num * 2
+}
